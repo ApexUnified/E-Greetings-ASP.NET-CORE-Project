@@ -37,5 +37,5 @@ You must manually download these assets from Mazeer Dashboard
 and place them in the /wwwroot/assets/ folder.
 
 ```bash
-git clone [https://github.com/your-username/e-greetings.git](https://github.com/ApexUnified/E-Greetings-ASP.NET-CORE-Project.git)
+git clone https://github.com/ApexUnified/E-Greetings-ASP.NET-CORE-Project.git
 cd e-greetings
