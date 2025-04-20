@@ -1,0 +1,125 @@
+﻿@model Feedback
+@{
+    ViewData["Title"] = "Feedback";
+    Layout = "_LayoutWebsite";
+
+    var feedbacks = ViewData["feedbacks"] as List<Feedback>;
+}
+
+
+
+@section Styles {
+    <style>
+        .feedback-section {
+        padding: 6rem 0;
+        background-color: #fff;
+        }
+
+        .feedback-form {
+        background: white;
+        padding: 3rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .rating-stars {
+        font-size: 2rem;
+        color: #ffd43b;
+        cursor: pointer;
+        }
+
+        .testimonial-card {
+        background: #f8f9fa;
+        padding: 2rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        }
+
+        .testimonial-quote {
+        font-size: 3rem;
+        color: #6f42c1;
+        opacity: 0.2;
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        }
+    </style>
+}
+
+<section class="feedback-section my-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="display-4 fw-bold mb-4">Your Feedback Matters</h2>
+                <p class="lead mb-5">Help us improve your experience with E-Greetings</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Feedback Form -->
+            <div class="col-lg-12 mb-5">
+                <div class="feedback-form">
+                    <h4 class="mb-4">Share Your Experience</h4>
+                    <form asp-controller="Website" asp-action="Feedback" method="post">
+
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label">Name</label>
+                            <input asp-for="Name" class="form-control" placeholder="Your Name">
+                            <span class="text-danger" asp-validation-for="Name"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">Email</label>
+                            <input asp-for="Email" class="form-control" placeholder="Your Email">
+                            <span class="text-danger" asp-validation-for="Email"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Message"  class="form-label">Your Feedback</label>
+                            <textarea asp-for="Message" class="form-control" rows="4" placeholder="Share your thoughts..."></textarea>
+                            <span class="text-danger" asp-validation-for="Message"></span>
+                        </div>
+                        <button type="submit" class="btn bg-primary-subtle">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-check-fill" viewBox="0 0 16 16">
+                                <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 1.59 2.498C8 14 8 13 8 12.5a4.5 4.5 0 0 1 5.026-4.47zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z" />
+                                <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686" />
+                            </svg>
+                            Submit Feedback</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row text-center hero-text">
+            <div class="col-md-12">
+                <h3>Our Feedbacks</h3>
+                <hr/>
+            </div>
+        </div>
+
+        <div class="row" >
+
+            <div class="row">
+                @foreach (var feedback in feedbacks)
+                {
+                    <div class="col-md-6 col-12 ">
+
+                        <div class="testimonial-card mb-4 position-relative mx-3">
+                            <i class="fas fa-quote-right testimonial-quote"></i>
+                            <p class="mb-3">@feedback.Message</p>
+                            <div class="d-flex align-items-center">
+                                <img src="~/assets/static/images/faces/2.jpg" alt="User" class="rounded-circle me-3" style="width: 50px;">
+                                <div>
+                                    <h6 class="mb-0">@feedback.Name</h6>
+                                    <small class="text-muted">@feedback.Email</small>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+
+        </div>
+    </div>
+</section>

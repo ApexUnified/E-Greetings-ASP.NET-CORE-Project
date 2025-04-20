@@ -1,0 +1,152 @@
+﻿
+@{
+    ViewData["Title"] = "About";
+    Layout = "_LayoutWebsite";
+
+}
+
+@section Styles {
+
+    <style>
+        .about-section {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .about-card {
+            border: none;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+            .about-card:hover {
+                transform: translateY(-10px);
+            }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #6f42c1;
+        }
+
+        .team-member {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+            .team-member img {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                margin-bottom: 1rem;
+            }
+
+        
+    </style>
+
+
+}
+
+
+<section class="about-section">
+    <div class="container">
+        <!-- Main About Content -->
+        <div class="text-center mb-5">
+            <h2 class="display-4 fw-bold mb-4">About E-Greetings</h2>
+            <p class="lead mb-5">Spreading joy and connecting hearts through digital greetings since 2020</p>
+        </div>
+
+        <!-- Statistics -->
+        <div class="row mb-5">
+            <div class="col-md-4 mb-4">
+                <div class="stat-card">
+                    <div class="stat-number">@ViewData["users"]+</div>
+                    <div class="stat-label">Happy Users</div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="stat-card">
+                    <div class="stat-number">@ViewData["cards"]+</div>
+                    <div class="stat-label">Card Designs</div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="stat-card">
+                    <div class="stat-number">@ViewData["sentcards"]+</div>
+                    <div class="stat-label">Cards Sent</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="row mb-5">
+            <div class="col-md-4 mb-4">
+                <div class="card about-card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-paint-brush fa-3x mb-3 text-primary"></i>
+                        <h4>Creative Design</h4>
+                        <p>Customize cards with our intuitive design tools</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card about-card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-rocket fa-3x mb-3 text-primary"></i>
+                        <h4>Instant Delivery</h4>
+                        <p>Send cards instantly to anywhere in the world</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card about-card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-heart fa-3x mb-3 text-primary"></i>
+                        <h4>Personal Touch</h4>
+                        <p>Add your personal message to make it special</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        @* <div class="text-center mb-5"> *@
+        @*     <h3 class="fw-bold mb-4">Meet Our Team</h3> *@
+        @*     <div class="row"> *@
+        @*         <div class="col-md-4 mb-4"> *@
+        @*             <div class="team-member"> *@
+        @*                 <img src="/api/placeholder/150/150" alt="Team Member"> *@
+        @*                 <h5>John Smith</h5> *@
+        @*                 <p class="text-muted">Creative Director</p> *@
+        @*             </div> *@
+        @*         </div> *@
+        @*         <div class="col-md-4 mb-4"> *@
+        @*             <div class="team-member"> *@
+        @*                 <img src="/api/placeholder/150/150" alt="Team Member"> *@
+        @*                 <h5>Sarah Johnson</h5> *@
+        @*                 <p class="text-muted">Lead Designer</p> *@
+        @*             </div> *@
+        @*         </div> *@
+        @*         <div class="col-md-4 mb-4"> *@
+        @*             <div class="team-member"> *@
+        @*                 <img src="/api/placeholder/150/150" alt="Team Member"> *@
+        @*                 <h5>Mike Wilson</h5> *@
+        @*                 <p class="text-muted">Tech Lead</p> *@
+        @*             </div> *@
+        @*         </div> *@
+        @*     </div> *@
+        @* </div> *@
+    </div>
+</section>
+
+<!-- Feedback Section -->
+
+

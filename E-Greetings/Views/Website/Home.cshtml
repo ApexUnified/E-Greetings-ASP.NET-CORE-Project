@@ -1,0 +1,184 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject IAuthorizationService AuthorizationService
+@using System.Security.Claims;
+@{
+    ViewData["Title"] = "Home";
+    Layout = "_LayoutWebsite";
+}
+
+<!-- Hero Section -->
+<section class="hero-section mb-sm-5">
+    <div class="container h-100">
+        <div class="row align-items-center h-100">
+            <!-- Left Side Text -->
+            <div class="col-lg-6 hero-text">
+                <h1 class="display-4 fw-bold mb-4">Share Joy with Digital Greetings</h1>
+                <p class="lead mb-4">Create and send beautiful digital cards for every occasion. From anniversaries to weddings, make your special moments memorable with our customizable e-cards.</p>
+                <a class="btn bg-primary-subtle btn-lg px-4" href="#create_design">Get Started</a>
+            </div>
+            <!-- Right Side Image -->
+            <div class="col-lg-6 text-center d-xl-block d-sm-none hide-on-small">
+                <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" class="img-fluid rounded shadow">
+                    <!-- Background -->
+                    <rect width="800" height="600" fill="#f8f9fa" />
+
+                    <!-- Support Person Silhouette -->
+                    <circle cx="400" cy="200" r="80" fill="#6f42c1" />
+                    <path d="M400 300 Q400 450, 400 500" stroke="#6f42c1" stroke-width="40" />
+
+                    <!-- Headset -->
+                    <path d="M320 200 Q280 200, 280 240 L280 280" stroke="#495057" stroke-width="8" fill="none" />
+                    <path d="M480 200 Q520 200, 520 240 L520 280" stroke="#495057" stroke-width="8" fill="none" />
+
+                    <!-- Chat Bubbles -->
+                    <rect x="600" y="150" width="120" height="80" rx="20" fill="#e9ecef" />
+                    <rect x="150" y="250" width="120" height="80" rx="20" fill="#e9ecef" />
+                    <rect x="580" y="350" width="120" height="80" rx="20" fill="#e9ecef" />
+                </svg>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Featured Section -->
+<section class="featured-section mb-sm-5" id="create_design">
+    <div class="container h-100">
+        <div class="row align-items-center h-100">
+            <div class="col-lg-6 d-sm-none d-xl-block hide-on-small">
+                <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" class="img-fluid rounded shadow">
+                    <!-- Background -->
+                    <rect width="800" height="600" fill="#f8f9fa" />
+
+                    <!-- Desk Surface -->
+                    <rect x="0" y="400" width="800" height="200" fill="#e9ecef" />
+
+                    <!-- Main Card -->
+                    <g transform="rotate(-5, 400, 300)">
+                        <rect x="250" y="150" width="400" height="300" fill="white" stroke="#6f42c1" stroke-width="8" rx="10" />
+                        <!-- Writing Lines -->
+                        <line x1="280" y1="220" x2="620" y2="220" stroke="#e9ecef" stroke-width="2" />
+                        <line x1="280" y1="260" x2="620" y2="260" stroke="#e9ecef" stroke-width="2" />
+                        <line x1="280" y1="300" x2="620" y2="300" stroke="#e9ecef" stroke-width="2" />
+                        <line x1="280" y1="340" x2="480" y2="340" stroke="#6f42c1" stroke-width="2" />
+                    </g>
+
+                    <!-- Hand with Pen -->
+                    <g transform="translate(450, 280)">
+                        <!-- Pen -->
+                        <rect x="0" y="0" width="120" height="15" fill="#495057" rx="2" />
+                        <path d="M 120 7.5 L 140 0 L 140 15 Z" fill="#495057" />
+
+                        <!-- Hand -->
+                        <path d="M -20 -10
+                 C -10 -20, 0 -20, 10 -10
+                 L 30 20
+                 C 40 30, 30 40, 20 35
+                 L -30 15
+                 C -40 10, -40 0, -20 -10"
+                              fill="#ffd43b" />
+                    </g>
+
+                    <!-- Decorative Elements -->
+                    <!-- Coffee Cup -->
+                    <g transform="translate(650, 350)">
+                        <path d="M 0 0 L 60 0 L 50 80 L 10 80 Z" fill="#fff" />
+                        <ellipse cx="30" cy="0" rx="30" ry="10" fill="#fff" />
+                        <path d="M 60 20 L 80 30 L 75 40 L 55 30 Z" fill="#fff" />
+                    </g>
+
+                    <!-- Pencils -->
+                    <g transform="translate(150, 300)">
+                        <rect x="0" y="0" width="10" height="100" fill="#ffd43b" transform="rotate(30)" />
+                        <rect x="20" y="0" width="10" height="90" fill="#ff6b6b" transform="rotate(45)" />
+                        <rect x="40" y="0" width="10" height="95" fill="#6f42c1" transform="rotate(15)" />
+                    </g>
+
+                    <!-- Paper Clips -->
+                    <path d="M 180 150 C 190 150, 190 170, 180 170 L 160 170 C 150 170, 150 150, 160 150"
+                          fill="none" stroke="#6f42c1" stroke-width="3" transform="rotate(15)" />
+                    <path d="M 650 200 C 660 200, 660 220, 650 220 L 630 220 C 620 220, 620 200, 630 200"
+                          fill="none" stroke="#ff6b6b" stroke-width="3" transform="rotate(-10)" />
+
+                    <!-- Hearts/Stars Decorations -->
+                    <path d="M 700 100 C 700 80, 680 80, 680 100 C 680 120, 700 120, 700 100" fill="#ff6b6b" />
+                    <circle cx="150" cy="120" r="8" fill="#ffd43b" />
+                    <circle cx="720" cy="280" r="6" fill="#ffd43b" />
+                </svg>
+            </div>
+            <div class="col-lg-6">
+                <h2 class="display-5 fw-bold mb-4">Create Your Own Custom Cards</h2>
+                <p class="lead mb-4">Want something unique? Use our card designer to create personalized greetings that perfectly express your feelings.</p>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start dropdown">
+                    <button class="btn bg-primary-subtle btn-lg px-4 me-md-2 dropdown-toggle" role="button" data-bs-toggle="dropdown" >Start Designing</button>
+                    <ul class="dropdown-menu">
+                        @if (HttpContextAccessor?.HttpContext?.Items["NavbarCards"] is List<CardViewModel> cards)
+                        {
+                            foreach (var card in cards)
+                            {
+                                <li>
+                                    <form asp-controller="@card.CardController" asp-action="@card.CardAction" asp-route-id="@card.Id" method="post">
+                                        <button type="submit" class="dropdown-item ">
+                                            @card.CardName
+                                        </button>
+                                    </form>
+                                </li>
+                            }
+
+                            if (cards.Count < 1)
+                            {
+                                <li><a class="dropdown-item" href="#">No Card Found</a></li>
+                            }
+
+                        }
+
+
+
+
+                    </ul>
+
+                    <a class="btn bg-success-subtle btn-lg px-4" href="#contact">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="contact-section mb-sm-5" id="contact">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0 d-sm-none d-xl-block hide-on-small">
+                <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" class="img-fluid rounded shadow">
+                    <!-- Background -->
+                    <rect width="800" height="600" fill="#f8f9fa" />
+
+                    <!-- Support Person Silhouette -->
+                    <circle cx="400" cy="200" r="80" fill="#6f42c1" />
+                    <path d="M400 300 Q400 450, 400 500" stroke="#6f42c1" stroke-width="40" />
+
+                    <!-- Headset -->
+                    <path d="M320 200 Q280 200, 280 240 L280 280" stroke="#495057" stroke-width="8" fill="none" />
+                    <path d="M480 200 Q520 200, 520 240 L520 280" stroke="#495057" stroke-width="8" fill="none" />
+
+                    <!-- Chat Bubbles -->
+                    <rect x="600" y="150" width="120" height="80" rx="20" fill="#e9ecef" />
+                    <rect x="150" y="250" width="120" height="80" rx="20" fill="#e9ecef" />
+                    <rect x="580" y="350" width="120" height="80" rx="20" fill="#e9ecef" />
+                </svg>
+            </div>
+            <div class="col-lg-6">
+                <div class="contact-overlay">
+                    <h2 class="display-5 fw-bold mb-4">Need Help? We're Here For You!</h2>
+                    <p class="lead mb-4">Have questions about our e-cards or need assistance with customization? Our friendly support team is ready to help make your greeting perfect.</p>
+                    <div class="d-flex gap-3">
+                        <a class="btn bg-primary-subtle btn-lg" asp-controller="Website" asp-action="Contact">Contact Support</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

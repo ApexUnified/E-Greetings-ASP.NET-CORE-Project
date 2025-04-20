@@ -1,0 +1,400 @@
+﻿
+@{
+    ViewData["Title"] = "Wedding";
+    Layout = "_LayoutWebsite";
+}
+
+
+@section Styles {
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap');
+
+        body {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            min-height: 100vh;
+        }
+
+        .wedding-card {
+            max-width: 900px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-section {
+            background: linear-gradient(45deg, #fff1f1, #fff8f8);
+            padding: 3rem 2rem;
+            position: relative;
+        }
+
+        .floral-border {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            opacity: 0.1;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ff9999' d='M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z'/%3E%3C/svg%3E");
+            background-size: contain;
+        }
+
+        .top-left {
+            top: 0;
+            left: 0;
+            transform: rotate(45deg);
+        }
+
+        .top-right {
+            top: 0;
+            right: 0;
+            transform: rotate(135deg);
+        }
+
+        .bottom-left {
+            bottom: 0;
+            left: 0;
+            transform: rotate(-45deg);
+        }
+
+        .bottom-right {
+            bottom: 0;
+            right: 0;
+            transform: rotate(-135deg);
+        }
+
+        .couple-name {
+            font-family: 'Great Vibes', cursive;
+            font-size: 4rem;
+            color: #ff6b6b;
+            margin: 1rem 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .invitation-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: #666;
+        }
+
+        .date-venue {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+            .date-venue h4 {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 600;
+                color: #444;
+                margin-bottom: 1rem;
+            }
+
+        .custom-input {
+            background: #f8f9fa;
+            border: 2px solid transparent;
+            border-radius: 15px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+            .custom-input:focus {
+                background: white;
+                border-color: #ff9999;
+                box-shadow: 0 5px 15px rgba(255, 153, 153, 0.2);
+            }
+
+        .btn-update {
+            background: linear-gradient(45deg, #ff6b6b, #ff9999);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+            .btn-update:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+            }
+
+        .form-section {
+            padding: 3rem 2rem;
+            background: white;
+        }
+
+        .form-label {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 0.5rem;
+        }
+
+        @@media (max-width: 768px) {
+            .wedding-card
+
+        {
+            margin: 1rem;
+        }
+
+        .couple-name {
+            font-size: 3rem;
+        }
+
+        .preview-section {
+            padding: 2rem 1rem;
+        }
+
+        .form-section {
+            padding: 2rem 1rem;
+        }
+
+        }
+    </style>
+}
+
+
+<div class="container">
+
+    <div class="wedding-card">
+        <div class="preview-section" id="card_section">
+            <div class="floral-border top-left"></div>
+            <div class="floral-border top-right"></div>
+            <div class="floral-border bottom-left"></div>
+            <div class="floral-border bottom-right"></div>
+
+            <div class="text-center">
+                <p class="invitation-text mb-2">THE WEDDING OF</p>
+                <h1 class="couple-name" id="previewNames">Bride & Groom</h1>
+                <p class="invitation-text">REQUEST THE HONOR OF YOUR PRESENCE</p>
+
+                <div class="date-venue">
+                    <h4 id="previewDate">SATURDAY, JANUARY 1ST, 2025</h4>
+                    <h4 id="previewTime">AT FIVE O'CLOCK </h4>
+                    <h4 id="previewVenue">THE GRAND BALLROOM</h4>
+                </div>
+
+                <p class="invitation-text" id="previewMessage">Together with their families</p>
+            </div>
+        </div>
+
+        <div class="form-section">
+
+            <div class="row">
+                <div class="col-md-8">
+                    <h3 class="text-center mb-4">Customize Your Invitation</h3>
+                </div>
+
+                <div class="col-md-4">
+                    <button class="btn bg-dark-subtle" id="sendmail">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-arrow-up-fill" viewBox="0 0 16 16">
+                            <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zm.192 8.159 6.57-4.027L8 9.586l1.239-.757.367.225A4.49 4.49 0 0 0 8 12.5c0 .526.09 1.03.256 1.5H2a2 2 0 0 1-1.808-1.144M16 4.697v4.974A4.5 4.5 0 0 0 12.5 8a4.5 4.5 0 0 0-1.965.45l-.338-.207z" />
+                            <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.354-5.354 1.25 1.25a.5.5 0 0 1-.708.708L13 12.207V14a.5.5 0 0 1-1 0v-1.717l-.28.305a.5.5 0 0 1-.737-.676l1.149-1.25a.5.5 0 0 1 .722-.016" />
+                        </svg>
+                        Send To Your Loved Once
+                    </button>
+                </div>
+            </div>
+
+            <form id="weddingForm">
+
+                <input hidden value="@ViewData["card_id"]" id="card_id" />
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Bride's Name</label>
+                        <input type="text" class="custom-input form-control" id="brideName" onkeyup="updatePreview()">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Groom's Name</label>
+                        <input type="text" class="custom-input form-control" id="groomName" onkeyup="updatePreview()">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Wedding Date</label>
+                        <input type="date" class="custom-input form-control" id="weddingDate" onchange="updatePreview()">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Wedding Time</label>
+                        <input type="time" class="custom-input form-control" id="weddingTime" onchange="updatePreview()">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Venue</label>
+                        <input type="text" class="custom-input form-control" id="venue" onkeyup="updatePreview()">
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <div class="mb-3">
+                            <label for="emailSelect" class="form-label">Select Email</label>
+                            <select class="custom-input form-control" id="emailSelect" multiple="multiple">
+                                <option value="" disabled selected>Select an email</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-2 mt-5">
+
+                        <div>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#emailModal">
+                                Add Email
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Custom Message</label>
+                    <textarea class="custom-input form-control" id="message" rows="3" onkeyup="updatePreview()"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Card Theme</label>
+                    <select class="custom-input form-control" onchange="updateTheme(this)">
+                        <option value="blue">Ocean Blue</option>
+                        <option value="rose">Rose Gold</option>
+                        <option value="emerald">Emerald Love</option>
+                        <option value="royal">Royal Purple</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn btn-update w-100" onclick="updatePreview()">Update Design</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="emailModalLabel">Add Email</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="emailForm">
+                        <div class="mb-3">
+                            <label for="emailInput" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="emailInput" placeholder="Enter email" required />
+                            <div id="emailError" class="text-danger" style="display: none;">Invalid email format</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="addEmailButton" class="btn btn-primary">Add Email</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+@section Scripts {
+    <script>
+
+
+        function formatDate(dateString) {
+            if (!dateString) return 'SATURDAY, JANUARY 1ST, 2025';
+            const date = new Date(dateString);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('en-US', options).toUpperCase();
+        }
+
+        function formatTime(timeString) {
+            if (!timeString) return 'AT FIVE O\'CLOCK';
+            const [hours, minutes] = timeString.split(':');
+            const time = new Date();
+            time.setHours(hours);
+            time.setMinutes(minutes);
+            return 'AT ' + time.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit'
+            }).toUpperCase() + ' IN THE EVENING';
+        }
+
+        function updatePreview() {
+            const brideName = document.getElementById('brideName').value || 'Bride';
+            const groomName = document.getElementById('groomName').value || 'Groom';
+            const weddingDate = formatDate(document.getElementById('weddingDate').value);
+            const weddingTime = formatTime(document.getElementById('weddingTime').value);
+            const venue = document.getElementById('venue').value || 'THE GRAND BALLROOM';
+            const message = document.getElementById('message').value || 'Together with their families';
+
+            document.getElementById('previewNames').textContent = `${brideName} & ${groomName}`;
+            document.getElementById('previewDate').textContent = weddingDate;
+            document.getElementById('previewTime').textContent = weddingTime;
+            document.getElementById('previewVenue').textContent = venue.toUpperCase();
+            document.getElementById('previewMessage').textContent = message;
+        }
+
+
+        function updateTheme(theme) {
+            const previewSection = document.querySelector('.preview-section');
+            const btnUpdate = document.querySelector('.btn-update');
+
+            const textElements = Array.from(document.querySelectorAll('.preview-section *')).filter(el => {
+            return el.textContent.trim().length > 0;
+            });
+
+            const textElementsData_venue = Array.from(document.querySelectorAll('.date-venue *')).filter(el => {
+            return el.textContent.trim().length > 0; 
+            });
+
+            const themes = {
+                blue: {
+                    background: 'linear-gradient(45deg, #2c3e50, #3498db)',
+                    button: 'linear-gradient(45deg, #2c3e50, #3498db)',
+                },
+                rose: {
+                    background: 'linear-gradient(45deg, #e74c3c, #ff9f93)',
+                    button: 'linear-gradient(45deg, #e74c3c, #ff9f93)',
+                },
+                emerald: {
+                    background: 'linear-gradient(45deg, #27ae60, #2ecc71)',
+                    button: 'linear-gradient(45deg, #27ae60, #2ecc71)',
+                },
+                royal: {
+                    background: 'linear-gradient(45deg, #8e44ad, #9b59b6)',
+                    button: 'linear-gradient(45deg, #8e44ad, #9b59b6)',
+                },
+                pink: {
+                    background: 'linear-gradient(45deg, #fff1f1, #fff8f8)',
+                    button: 'linear-gradient(45deg, #ff6b6b, #ff9999)',
+                }
+            };
+                textElements.forEach(element => {
+                    element.style.color = '#fff'; 
+                });
+
+
+                 textElementsData_venue.forEach(elements => {
+                    elements.style.color = '#000000';
+                 });
+
+            console.log(themes[theme.value]);
+            previewSection.style.background = themes[theme.value].background;
+            btnUpdate.style.background = themes[theme.value].button;
+        }
+
+
+        // Initialize the card
+        updatePreview();
+       
+    </script>
+    <script src="~/js/wedding_card_send.js"></script>
+}
+

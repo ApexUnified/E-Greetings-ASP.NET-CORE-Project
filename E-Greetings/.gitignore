@@ -1,0 +1,22 @@
+# Ignore build and debug folders
+bin/
+obj/
+wwwroot/*
+.vscode/
+*.user
+*.suo
+Data
+.vs
+# Ignore publish folders
+publish/
+artifacts/
+
+# Ignore local secrets
+secrets.json
+
+# Ignore compiled files
+*.dll
+*.pdb
+
+# Ignore logs
+*.log

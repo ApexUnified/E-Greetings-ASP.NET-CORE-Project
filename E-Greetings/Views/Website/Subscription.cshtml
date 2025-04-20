@@ -1,0 +1,264 @@
+﻿
+@{
+    ViewData["Title"] = "Subscription";
+    Layout = "_LayoutWebsite";
+}
+
+@section Styles {
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background-color: #f8f9fa;
+            color: #333;
+            padding: 40px 0;
+            margin-bottom: 80px; /* Increased margin bottom */
+            position: relative;
+            z-index: 1;
+            width: 100%;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 60px 0;
+            background-color: white;
+            position: relative;
+            z-index: 2;
+            margin-top: 20px; /* Added margin top */
+        }
+
+        .hero-illustration {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            margin: 0 auto 2rem;
+            display: block;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            height: 100%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #0d6efd;
+            margin-bottom: 1rem;
+        }
+
+        /* Mobile Responsive */
+        @@media (max-width: 768px) {
+            .hero-section {
+                padding: 30px 0 60px; /* Increased bottom padding */
+                margin-bottom: 40px;
+            }
+
+            .features-section {
+                padding: 40px 0;
+                margin-top: 0;
+            }
+
+            h1.display-4 {
+                font-size: 2rem;
+            }
+
+            .lead {
+                font-size: 1rem;
+            }
+
+            .feature-card {
+                margin-bottom: 30px;
+            }
+
+            .hero-content {
+                padding: 0 15px;
+            }
+        }
+
+        /* Button Styles */
+        .btn {
+            position: relative;
+            z-index: 3;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Section Title */
+        .section-title {
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Clear spacing between rows */
+        /* .row { */
+        /*     margin-left: -15px; */
+        /*     margin-right: -15px; */
+        /*     clear: both; */
+        /* } */
+
+
+        .terms-conditions {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+    </style>
+}
+
+
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content text-center">
+                <svg class="hero-illustration" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
+                    <!-- SVG content same as before -->
+                    <rect width="800" height="400" fill="#f8f9fa" />
+                    <path d="M300 100 L500 100 L500 250 L300 250 Z" fill="#ffffff" stroke="#0d6efd" stroke-width="3" />
+                    <path d="M300 100 L400 175 L500 100" fill="none" stroke="#0d6efd" stroke-width="3" />
+                    <g fill="#dc3545">
+                        <path d="M280 120 C280 110,290 100,300 100 C310 100,320 110,320 120 C320 130,310 140,300 140 C290 140,280 130,280 120 Z" />
+                        <path d="M480 150 C480 140,490 130,500 130 C510 130,520 140,520 150 C520 160,510 170,500 170 C490 170,480 160,480 150 Z" />
+                        <path d="M380 80 C380 70,390 60,400 60 C410 60,420 70,420 80 C420 90,410 100,400 100 C390 100,380 90,380 80 Z" />
+                    </g>
+                    <g fill="#ffc107">
+                        <path d="M450 200 L455 210 L465 210 L457 217 L460 227 L450 222 L440 227 L443 217 L435 210 L445 210 Z" />
+                        <path d="M350 180 L355 190 L365 190 L357 197 L360 207 L350 202 L340 207 L343 197 L335 190 L345 190 Z" />
+                    </g>
+                    <text x="400" y="300" text-anchor="middle" font-size="24" fill="#0d6efd" font-family="Arial, sans-serif">Premium E-greetings</text>
+                    <circle cx="250" cy="150" r="10" fill="#198754" opacity="0.5" />
+                    <circle cx="550" cy="150" r="15" fill="#0dcaf0" opacity="0.5" />
+                    <circle cx="300" cy="300" r="12" fill="#6610f2" opacity="0.5" />
+                    <circle cx="500" cy="280" r="8" fill="#fd7e14" opacity="0.5" />
+                    <path d="M0 350 Q200 300 400 350 Q600 400 800 350" fill="none" stroke="#0d6efd" stroke-width="2" opacity="0.3" />
+                    <path d="M0 360 Q200 310 400 360 Q600 410 800 360" fill="none" stroke="#0d6efd" stroke-width="2" opacity="0.2" />
+                </svg>
+                <h1 class="display-4">Send Beautiful E-greetings</h1>
+                <p class="lead">Subscribe now to access our premium collection of digital greeting cards</p>
+                <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#subscribeModal">
+                    Subscribe Now
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="text-center section-title">Why Subscribe?</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <h3>Premium Designs</h3>
+                        <p>Access to exclusive premium greeting card designs created by professional artists.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">✨</div>
+                        <h3>Unlimited Access</h3>
+                        <p>Send as many e-greetings as you want to your loved ones throughout the year.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3>Personalization</h3>
+                        <p>Customize your cards with personal messages, photos, and special effects.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscribe Modal -->
+    <div class="modal fade" id="subscribeModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Subscribe Now</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <h2 class="display-4 fw-bold">$500</h2>
+                        <p class="text-muted">Monthly subscription with full access</p>
+                    <button class="btn btn-primary btn-lg" id="subscribe_button">Subscribe</button>
+                    </div>
+
+                    <div class="terms-conditions small">
+                        <h6 class="fw-bold">Terms and Conditions:</h6>
+                        <ul>
+                            <li>Subscription is valid for one Month from the date of purchase</li>
+                            <li>Access to all premium features and designs</li>
+                            <li>30-day money-back guarantee</li>
+                            <li>24/7 customer support included</li>
+                            <li>Usage is subject to our fair use policy</li>
+                        </ul>
+                        <p>By subscribing, you agree to our terms of service and privacy policy.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @* UnAuthenticated User Details Grabbing Model *@
+<div class="modal fade" id="unauthenticated_user_model" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Fill This Form </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input class="form-control" id="subscribe_email" />
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary btn-lg" id="subscribe_button_unauthenticated">Subscribe</button>
+                </div>
+
+                <div class="terms-conditions small">
+                    <h6 class="fw-bold">Terms and Conditions:</h6>
+                    <ul>
+                        <li>Subscription is valid for one month from the date of purchase.</li>
+                        <li>Access to all premium features and designs.</li>
+                        <li>30-day money-back guarantee.</li>
+                        <li>24/7 customer support included.</li>
+                        <li>Usage is subject to our fair use policy.</li>
+                        <li>
+                            If you are subscribing as a guest:
+                            <ul>
+                                <li>Your subscription will be tracked using your IP address.</li>
+                                <li>You must provide a valid email to receive updates and confirmations.</li>
+                                <li>Guest subscriptions cannot be transferred to authenticated accounts.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    @section Scripts {
+        <script src="~/js/subscription.js"></script>
+    }

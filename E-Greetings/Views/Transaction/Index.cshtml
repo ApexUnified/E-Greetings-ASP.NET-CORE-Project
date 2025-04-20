@@ -1,0 +1,217 @@
+﻿@model List<Transaction>
+@{
+    ViewData["Title"] = "Transactions";
+}
+
+<div id="main-content">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Transactions</h3>
+                    <p class="text-subtitle text-muted">
+                        In This Section You Will See All Transactions Who Have Been Made In This System;
+                    </p>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="DashboardIndex">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Transactions</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive datatable-minimal">
+                        <div class="datatable-row d-flex justify-content-between flex-wrap">
+                        </div>
+                        <table class="table" id="trasactions">
+                            <thead>
+                                <tr>
+
+                                    <th>User Name</th>
+                                    <th>Paid</th>
+                                    <th>Paid At</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td> @item.Name</td>
+                                        <td> @item.Money </td>
+                                        <td> @item.At.ToString("G") </td>
+                                    </tr>
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="filterModalLabel">Filter by Date</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="dateFilterForm">
+                            <div class="mb-3">
+                                <label for="fromDate" class="form-label">From Date</label>
+                                <input type="date" id="fromDate" class="form-control flatpickr-no-config">
+                            </div>
+                            <div class="mb-3">
+                                <label for="toDate" class="form-label">To Date</label>
+                                <input type="date" id="toDate" class="form-control flatpickr-no-config ">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" id="applyFilter" class="btn btn-primary">Apply Filter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+
+         $(document).ready(function(){
+
+        let trasactions_datatable = $("#trasactions").DataTable({
+            responsive: true,
+            columnDefs: [
+            { orderable: false, targets: [0] }
+            ],
+            dom:
+            "<'row mb-3'<'col-4'l><'col-4 d-flex justify-content-center'f><'col-4 text-end'>>" +
+            "<'row dt-row'<'col-sm-12'tr>>" +
+            "<'row'<'col-4'i><'col-8'p>>",
+            buttons: [
+
+                 {
+                    text: 'Filter <i class="bi bi-funnel-fill"></i>',
+                    title: 'Delete',
+                    className: 'btn btn-sm font-sm btn-primary',
+                    attr: {
+                        id: "transaction_filter"
+                    },
+                 },
+
+                    {
+                        extend: 'collection',
+                        text: 'Export',
+                        className: 'btn btn-sm btn-primary',
+                        buttons: [
+                            {
+                            extend: 'copy', className: 'text-primary', title: "trasactions", exportOptions: {
+                                    columns: ':visible:not(.no-print)'
+                                }
+                            },
+                            {
+                            extend: 'csv', className: 'text-primary', title: "trasactions", exportOptions: {
+                                    columns: ':visible:not(.no-print)'
+                                }
+                            },
+                            {
+                            extend: 'excel', className: 'text-primary', title: "trasactions", exportOptions: {
+                                    columns: ':visible:not(.no-print)'
+                                }
+                            },
+                            {
+                            extend: 'pdf', className: 'text-primary', title: "trasactions", exportOptions: {
+                                    columns: ':visible:not(.no-print)'
+                                }
+                            },
+                            {
+                            extend: 'print', className: 'text-primary', title: "trasactions", exportOptions: {
+                                    columns: ':visible:not(.no-print)'
+                                }
+                            },
+                        ],
+                    }
+
+                ],
+                initComplete: function () {
+                    setTimeout(() => {
+                        $('.dt-buttons').removeClass('dt-buttons');
+                    }, 0);
+                },
+            });
+
+
+            trasactions_datatable
+                .buttons()
+                .container()
+            .appendTo('#trasactions_wrapper .col-4.text-end')
+                .parent()
+                .addClass('d-flex justify-content-end flex-wrap');
+
+
+            document.getElementById("transaction_filter").addEventListener("click",function(){
+                $("#filterModal").modal("show");
+                  console.log("Filter");
+
+            var table = $('#trasactions').DataTable();
+
+
+            $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+            var min = $('#fromDate').val();
+            var max = $('#toDate').val();
+            var date = data[2]; 
+
+                 if (min) {
+                    min = new Date(min);
+                }
+                if (max) {
+                    max = new Date(max);
+                }
+                var rowDate = new Date(date);
+
+
+                if (
+                (!min && !max) ||                     
+                (!min && rowDate <= max) ||          
+                (min <= rowDate && !max) ||          
+                (min <= rowDate && rowDate <= max)    
+                 )  
+            {
+                return true;
+            }
+            return false;
+        });
+
+        $('#applyFilter').on('click', function () {
+            $('#filterModal').modal('hide'); 
+            table.draw(); 
+        });
+
+
+            });
+
+
+
+         });
+
+    </script>
+}
+

@@ -1,0 +1,276 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@model List<CardViewModel>
+@{
+    ViewData["Title"] = "Cards";
+}
+
+<div id="main-content">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Cards</h3>
+                    <p class="text-subtitle text-muted">
+                        In This Section You Will See All Cards Who Have Been Created In This System;
+                    </p>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="DashboardIndex">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Cards</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+            @if ((await AuthorizationService.AuthorizeAsync(User, "Create Cards")).Succeeded) 
+            {
+                <div class="d-flex justify-content-end mb-3">
+                    <a asp-controller="Card" asp-action="Create" class="btn btn-primary"> Create Card </a>
+                </div>
+            } 
+
+        </div>
+
+        <section class="section">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive datatable-minimal">
+                        <div class="datatable-row d-flex justify-content-between flex-wrap">
+                        </div>
+                        <table class="table" id="cards">
+                            <thead>
+                                <tr>
+                                    <th class="no-print">
+                                        <div class="form-check form-check-lg d-flex align-items-end">
+                                            <input class="form-check-input me-2" name="remember" type="checkbox"
+                                            value="" id="select_all">
+                                        </div>
+                                    </th>
+                                    <th>Card Name</th>
+                                    <th>Card Controller</th>
+                                    <th>Card Action</th>
+                                    <th>Card Status</th>
+
+                                    @if ((await AuthorizationService.AuthorizeAsync(User, "Edit Cards")).Succeeded || (await AuthorizationService.AuthorizeAsync(User, "Delete Cards")).Succeeded)
+                                    {
+                                        <th class="no-print">Action</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="no-print">
+                                            <div class="form-check form-check-lg d-flex align-items-end">
+                                                <input class="form-check-input me-2 each_select" name="remember"
+                                                type="checkbox" value="@item.Id" id="flexCheckDefault">
+                                            </div>
+                                        </td>
+                                        <td> @item.CardName</td>
+                                        <td> @item.CardController </td>
+                                        <td> @item.CardAction </td>
+
+                                        <td>
+                                            @if (@item.Status == 1)
+                                            {
+                                                <span class="badge bg-success">Active</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">In Active</span>
+                                            }
+                                        </td>
+
+                                        @if ((await AuthorizationService.AuthorizeAsync(User, "Edit Cards")).Succeeded || (await AuthorizationService.AuthorizeAsync(User, "Delete Cards")).Succeeded)
+                                        {
+                                            <td class="no-print">
+                                                <button class="btn btn-primary dropdown-toggle me-1" type="button"
+                                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                    Actions
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    @if ((await AuthorizationService.AuthorizeAsync(User, "Edit Cards")).Succeeded)
+                                                    {
+
+                                                        @if (item.Status == 1)
+                                                        {
+                                                            <a class="dropdown-item" asp-controller="Card" asp-action="InActive" asp-route-id="@item.Id">
+                                                                <i class="bi bi-toggle-on"></i>
+                                                                In-Active
+                                                            </a>
+                                                        }
+                                                        else if (item.Status == 0)
+                                                        {
+                                                            <a class="dropdown-item" asp-controller="Card" asp-action="Active" asp-route-id="@item.Id">
+                                                                <i class="bi bi-toggle-off"></i>
+                                                                Active
+                                                            </a>
+                                                        }
+                                                    }
+
+                                                    @if ((await AuthorizationService.AuthorizeAsync(User, "Delete Cards")).Succeeded)
+                                                    { 
+                                                <a class="dropdown-item" onclick="return confirm('Are You Sure You Want to Delete This Card?')" asp-controller="Card" asp-action="Destroy" asp-route-id="@item.Id">
+                                                    <i class="bi bi-trash3-fill"></i>
+                                                    Delete
+                                                </a>
+                                                 } 
+                                            </div>
+                                        </td>
+                                         } 
+
+                                    </tr>
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+
+            $(document).ready(function(){
+
+            let subscribers_datatable = $("#cards").DataTable({
+            responsive: true,
+            columnDefs: [
+            { orderable: false, targets: [0] }
+            ],
+            dom:
+            "<'row mb-3'<'col-4'l><'col-4 d-flex justify-content-center'f><'col-4 text-end'>>" +
+            "<'row dt-row'<'col-sm-12'tr>>" +
+            "<'row'<'col-4'i><'col-8'p>>",
+            buttons: [
+
+        @if ((await AuthorizationService.AuthorizeAsync(User, "Delete Cards")).Succeeded)
+        {
+            <text>
+                {
+                text: 'Delete <i class="bi bi-trash-fill"></i>',
+                title: 'Delete',
+                className: 'btn btn-sm font-sm btn-danger',
+                attr: {
+                    id: "card_delete_btn"
+                },
+                },
+            </text>
+        }
+
+                    {
+                        extend: 'collection',
+                        text: 'Export',
+                        className: 'btn btn-sm btn-primary',
+                        buttons: [
+                            {
+                                extend: 'copy', className: 'text-primary', title: "Cards", exportOptions: {
+                                    columns: ':visible:not(.no-print)'
+                                }
+                            },
+                            {
+                                extend: 'csv', className: 'text-primary', title: "Cards", exportOptions: {
+                                    columns: ':visible:not(.no-print)'
+                                }
+                            },
+                            {
+                                extend: 'excel', className: 'text-primary', title: "Cards", exportOptions: {
+                                    columns: ':visible:not(.no-print)'
+                                }
+                            },
+                            {
+                                extend: 'pdf', className: 'text-primary', title: "Cards", exportOptions: {
+                                    columns: ':visible:not(.no-print)'
+                                }
+                            },
+                            {
+                                extend: 'print', className: 'text-primary', title: "Cards", exportOptions: {
+                                    columns: ':visible:not(.no-print)'
+                                }
+                            },
+                        ],
+                    }
+
+                ],
+                initComplete: function () {
+                    setTimeout(() => {
+                        $('.dt-buttons').removeClass('dt-buttons');
+                    }, 0);
+                },
+            });
+
+
+            subscribers_datatable
+                .buttons()
+                .container()
+                .appendTo('#cards_wrapper .col-4.text-end')
+                .parent()
+                .addClass('d-flex justify-content-end flex-wrap');
+
+
+
+
+
+
+            $("#select_all").on("change", function () {
+            const isChecked = $(this).is(":checked");
+            $(".each_select").prop("checked", isChecked);
+            });
+
+            $("#card_delete_btn").on("click", function () {
+
+                const selected_ids = [];
+                $(".each_select:checked").each(function () {
+                    selected_ids.push($(this).val());
+                });
+
+                if (selected_ids.length < 1) {
+                    alert("Please select any Card");
+                } else {
+                    const conf = confirm("Are you sure you want to delete these Cards?");
+                    if (conf) {
+                        $.ajax({
+                            url: '/card/deletebyselection',
+                            type: 'POST',
+                            data: { card_ids: selected_ids },
+                            success: function (response) {
+                                if (response.status) {
+                                    alert("Selected Cards deleted successfully");
+                                    location.reload();
+                                } else {
+                                    alert("Failed to delete Selected Cards");
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                alert("Failed to delete Selected Cards");
+                            }
+                        });
+                    }
+                }
+
+
+            });
+
+
+
+
+
+              });
+
+    </script>
+}
+

@@ -1,0 +1,259 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@model List<Role>
+@{
+    ViewData["Title"] = "Role";
+}
+<div id="main-content">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Role Settings</h3>
+                    <p class="text-subtitle text-muted">
+                        In This Section You Will See All Roles That Has Been Created For This System;
+                    </p>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="DashboardIndex">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Setting / RoleSettings</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+
+ 
+                <div class="d-flex justify-content-end mb-3">
+                    <a asp-controller="Setting" asp-action="RoleCreate" class="btn btn-primary"> Create Role </a>
+                </div>
+
+
+        </div>
+
+        <section class="section">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive datatable-minimal">
+                        <div class="datatable-row d-flex justify-content-between flex-wrap">
+                        </div>
+                        <table class="table" id="role">
+                            <thead>
+                                <tr>
+                                    <th class="no-print">
+                                        <div class="form-check form-check-lg d-flex align-items-end">
+                                            <input class="form-check-input me-2" name="remember" type="checkbox"
+                                            value="" id="select_all">
+                                        </div>
+                                    </th>
+                                    <th>Name</th>
+                                    <th class="no-print">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var item in Model){
+                                    <tr>
+                                        <td class="no-print">
+                                            <div class="form-check form-check-lg d-flex align-items-end">
+                                                <input class="form-check-input me-2 each_select" name="remember"
+                                                type="checkbox" value="@item.Id" id="flexCheckDefault">
+                                            </div>
+                                        </td>
+                                        <td> @item.Name </td>
+                                            <td class="no-print">
+                                                <button class="btn btn-primary dropdown-toggle me-1" type="button"
+                                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                    Actions
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    
+                                                <a class="dropdown-item" asp-controller="Setting" asp-action="RolePermissionsIndex" asp-route-id="@item.Id">
+                                                    <i class="bi bi-person-check-fill"></i>
+                                                    Role Permissions</a>
+
+                                                    
+
+                                                        <a class="dropdown-item" asp-controller="Setting" asp-action="RoleEdit" asp-route-id= "@item.Id">
+                                                            <i class="bi bi-pen-fill"></i>
+                                                            Edit</a>
+                                                  
+                                                   
+                                                        @if (item.Id == 1) { 
+                                                        }else if(item.Id == 4){
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="dropdown-item" onclick="return confirm('Are You Sure You Want to Delete This role')" asp-controller="Setting" asp-action="RoleDestroy" asp-route-id="@item.Id">
+                                                                <i class="bi bi-trash3-fill"></i>
+                                                                Delete
+                                                            </a>
+                                                        }
+                                                    
+                                                   
+                                                </div>
+                                           </td>  
+                                    </tr>
+
+                            }
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+</div>
+</div>
+
+
+@section Scripts {
+    <script>
+
+         $(document).ready(function(){
+
+           let role_datatable = $("#role").DataTable({
+            responsive: true,
+            columnDefs: [
+                { orderable: false, targets: [0] }
+            ],
+            dom:
+                "<'row mb-3'<'col-4'l><'col-4 d-flex justify-content-center'f><'col-4 text-end'>>" +
+                "<'row dt-row'<'col-sm-12'tr>>" +
+                "<'row'<'col-4'i><'col-8'p>>",
+            buttons: [
+
+               
+                {
+                text: 'Delete <i class="bi bi-trash-fill"></i>',
+                title: 'Delete',
+                className: 'btn btn-sm font-sm btn-danger',
+                attr: {
+                    id: "role_delete_btn"
+                }
+                },
+               
+
+                
+
+                {
+                    extend: 'collection',
+                    text: 'Export',
+                    className: 'btn btn-sm btn-primary',
+                    buttons: [
+                        {
+                            extend: 'copy', className: 'text-primary', title: "Roles", exportOptions: {
+                                columns: ':visible:not(.no-print)'
+                            }
+                        },
+                        {
+                            extend: 'csv', className: 'text-primary', title: "Roles", exportOptions: {
+                                columns: ':visible:not(.no-print)'
+                            }
+                        },
+                        {
+                            extend: 'excel', className: 'text-primary', title: "Roles", exportOptions: {
+                                columns: ':visible:not(.no-print)'
+                            }
+                        },
+                        {
+                            extend: 'pdf', className: 'text-primary', title: "Roles", exportOptions: {
+                                columns: ':visible:not(.no-print)'
+                            }
+                        },
+                        {
+                            extend: 'print', className: 'text-primary', title: "Roles", exportOptions: {
+                                columns: ':visible:not(.no-print)'
+                            }
+                        },
+                    ],
+                }
+
+            ],
+            initComplete: function () {
+                setTimeout(() => {
+                    $('.dt-buttons').removeClass('dt-buttons');
+                }, 0);
+            },
+        });
+
+
+        role_datatable
+            .buttons()
+            .container()
+            .appendTo('#role_wrapper .col-4.text-end')
+            .parent()
+            .addClass('d-flex justify-content-end flex-wrap');
+
+
+
+
+
+
+            $("#select_all").on("change", function () {
+            const isChecked = $(this).is(":checked");
+            $(".each_select").prop("checked", isChecked);
+        });
+
+        $("#role_delete_btn").on("click", function () {
+
+            const selected_ids = [];
+            $(".each_select:checked").each(function () {
+                selected_ids.push($(this).val());
+            });
+
+            if (selected_ids.length < 1) {
+                alert("Please select any Role");
+            } else {
+                const conf = confirm("Are you sure you want to delete these Roles?");
+                if (conf) {
+                    $.ajax({
+                        url: '/role/deletebyselection',
+                        type: 'POST',
+                        data: { role_ids: selected_ids },
+                        success: function (response) {
+                            if (response.status) {
+                                       Swal.fire({
+                                        title: "Sucess",
+                                        text: `${response.message}`,
+                                        icon: "success"
+                                    }).then((result) => {
+                                        if (result.isConfirmed || result.isDismissed) {
+                                            location.reload();
+                                        }
+                                    });
+                            } else {
+                                Swal.fire({
+                                        title: "Error",
+                                        text: `${response.message}`,
+                                        icon: "error"
+                                    });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire({
+                                title: "Error",
+                                text: `${error}`,
+                                icon: "error"
+                            });
+                        }
+                    });
+                }
+            }
+
+
+        });
+
+
+
+
+
+          });
+
+    </script>
+}

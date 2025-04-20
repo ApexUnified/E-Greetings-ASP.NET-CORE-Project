@@ -1,0 +1,353 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject IAuthorizationService AuthorizationService
+@using System.Security.Claims;
+@{
+    var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+}
+
+<!DOCTYPE html>
+
+<html data-bs-theme='light'>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title> E-Greetings - @ViewBag.Title</title>
+
+     @* <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet"> *@
+     <link href="~/twitter-bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/assets/static/css/SweetAlert2.css">
+    <link rel="stylesheet" href="~/assets/compiled/css/iconly.css">
+    <link rel="stylesheet" href="~/assets/extensions/choices.js/public/assets/styles/choices.css">
+    @RenderSection("Styles", required: false)
+    <style>
+        .hero-section {
+            padding-top: 76px;
+        }
+        .navbar {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            color: #6f42c1;
+        }
+        .nav-link {
+            font-weight: 500;
+        }
+        .hero-text {
+            padding: 2rem;
+        }
+        .active {
+            color: #6f42c1 !important;
+        }
+        .card-showcase {
+            padding: 4rem 0;
+            background-color: #f8f9fa;
+        }
+        .featured-section {
+            height: 100vh;
+            background-color: #fff;
+        }
+        img {
+            transition: transform 0.3s ease;
+        }
+        img:hover {
+            transform: translateY(-5px);
+        }
+
+        svg {
+            transition: transform 0.3s ease;
+        }
+
+        svg:hover {
+            transform: translateY(-5px);
+        }
+        .dropdown-item:active {
+            background-color: #6f42c1;
+        }
+
+
+        .contact-section {
+            background-color: #f8f9fa;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 10rem;
+        }
+
+        .contact-overlay {
+            background: rgba(111, 66, 193, 0.05);
+            padding: 3rem;
+            border-radius: 1rem;
+        }
+
+        .footer {
+            background-color: #2d2d2d;
+            color: #fff;
+            padding: 4rem 0 2rem;
+        }
+
+            .footer a {
+                color: #fff;
+                text-decoration: none;
+            }
+
+                .footer a:hover {
+                    color: #6f42c1;
+                }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+            .footer-links li {
+                margin-bottom: 1rem;
+            }
+
+        .social-icons a {
+            margin-right: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 2rem;
+            padding-top: 2rem;
+        }
+      @@media (max-width: 768px) {
+            .hero-section, .featured-section, .contact-section
+
+        {
+            min-height: auto;
+            padding: 3rem 0;
+        }
+
+            @@media (max-width: 576px) {
+                .hide-on-small {
+                    display: none !important;
+                }
+            }
+
+        .contact-overlay {
+            padding: 1.5rem;
+        }
+
+        }
+    </style>
+
+</head>
+<body>
+    <div>
+          <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" asp-controller="Website" asp-action="Home">E-Greetings</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav m-auto">
+                        <li class="nav-item">
+                            <a class="nav-link  @(Context.Request.Path.Value == "/" ? "active" : "")" asp-controller="Website" asp-action="Home">Home</a>
+                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(Context.Request.Path.Value.Contains("/About") ? "active" : "") " asp-controller="Website" asp-action="About">About</a>
+                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(Context.Request.Path.Value.Contains("/Contact") ? "active" : "")" asp-controller="Website" asp-action="Contact">Contact Us</a>
+                    </li>
+
+                    @if(User.Identity.IsAuthenticated){
+                            <li class="nav-item">
+                                <a class="nav-link  @(Context.Request.Path.Value.Contains("/Feedback") ? "active" : "")" asp-controller="Website" asp-action="FeedBack">Feedback</a>
+                            </li>
+                    }
+                        
+
+                 
+                            
+                    <li class="nav-item">
+                        <a class="nav-link  @(Context.Request.Path.Value.Contains("/Subscription") ? "active" : "")" asp-controller="Website" asp-action="Subscription">Subscription</a>
+                    </li>
+                            
+
+                 
+
+                  
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        Cards
+                    </a>
+                    <ul class="dropdown-menu">
+                        @if (HttpContextAccessor?.HttpContext?.Items["NavbarCards"] is List<CardViewModel> cards)
+                        {
+                            foreach (var card in cards)
+                            {
+                                <li>
+                                    <form asp-controller="@card.CardController" asp-action="@card.CardAction" asp-route-id="@card.Id" method="post">
+                                        <button type="submit" class="dropdown-item ">
+                                            @card.CardName
+                                        </button>
+                                    </form>
+                                </li>
+                            }
+
+                            if (cards.Count < 1)
+                            {
+                                <li><a class="dropdown-item" href="#">No Card Found</a></li>
+                            }
+
+                        }
+                    </ul>
+                </li>
+                    
+                   
+                </ul>
+
+                    @if (@User?.Identity?.Name != null)
+                    {
+                        <div class="d-flex align-content-center">
+
+                            @if (userRole == "Admin")
+                            {
+                                <a class="btn bg-success-subtle mx-2" asp-controller="Dashboard" asp-action="DashboardIndex">
+                                    Dashboard
+                                </a>
+                            }
+
+                            <a class="btn bg-danger-subtle" asp-controller="Auth" asp-action="Logout">
+                                Logout
+                            </a>
+
+                       
+
+                            <span class="badge bg-primary-subtle d-flex align-items-center mx-2 ">
+                                <span class="text-dark">  Name: @User?.Identity?.Name</span>
+                            </span>
+                        </div>
+
+                        
+                    }
+                    else
+                    {
+                        <a class="btn bg-success-subtle" asp-controller="Auth" asp-action="Login">
+                            Login
+                        </a>
+                    }
+            </div>
+               
+        </div>
+    </nav>
+
+        @RenderBody()
+
+
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <!-- Brand Column -->
+                    <div class="col-lg-4 mb-4">
+                        <h3 class="footer-brand mb-4">E-Greetings</h3>
+                        <p class="mb-4">Share joy and celebrations with our beautiful collection of digital greeting cards. Make every moment special with personalized messages.</p>
+                        <div class="social-icons">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-pinterest"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="col-lg-2 col-md-6 mb-4">
+                        <h5 class="mb-4">Quick Links</h5>
+                        <ul class="footer-links">
+                            <li><a asp-controller="Website" asp-action="Home">Home</a></li>
+                            <li><a asp-controller="Website" asp-action="About">About</a></li>
+                            <li><a asp-controller="Website" asp-action="Contact">Contact Us</a></li>
+                            <li><a asp-controller="Website" asp-action="Feedback">Feedback</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Card Categories -->
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <h5 class="mb-4">Card Categories</h5>
+                        <ul class="footer-links">
+                           
+                                @if (HttpContextAccessor?.HttpContext?.Items["NavbarCards"] is List<CardViewModel> cardss)
+                                {
+                                    foreach (var card in cardss)
+                                    {
+                                        <li>
+                                            <form asp-controller="@card.CardController" asp-action="@card.CardAction" asp-route-id="@card.Id" method="post">
+                                                <button type="submit" class="dropdown-item ">
+                                                    @card.CardName
+                                                </button>
+                                            </form>
+                                        </li>
+                                    }
+
+                                    if (cardss.Count < 1)
+                                    {
+                                        <li><a class="dropdown-item" href="#">No Cards Found</a></li>
+
+                                    }
+
+                                }
+                            
+                            
+                           
+                        </ul>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="col-lg-3 mb-4">
+                        <h5 class="mb-4">Contact Info</h5>
+                        <ul class="footer-links">
+                            <li><i class="fas fa-envelope me-2"></i> support@egreetings.com</li>
+                            <li><i class="fas fa-phone me-2"></i> +1 (555) 123-4567</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Copyright -->
+                <div class="text-center copyright">
+                    <p class="mb-0">&copy; 2025 E-Greetings. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="~/assets/extensions/jquery/jquery.min.js"></script>
+     @* <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>  *@
+    <script src="~/twitter-bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="~/assets/static/js/SweetAlert2.js"></script>
+    <script src="~/assets/extensions/choices.js/public/assets/scripts/choices.js"></script>
+    <script src="~/assets/static/js/pages/form-element-select.js"></script>
+
+    <script>
+        @if (TempData["Error"] != null)
+        {
+            <text>
+                   Swal.fire({
+                       title: "Error",
+                       text: "@TempData["Error"]",
+                       icon: "error"
+                   });
+            </text>
+        }
+
+        @if (TempData["Success"] != null)
+        {
+            <text>
+                   Swal.fire({
+                       title: "Success",
+                       text: "@TempData["Success"]",
+                       icon: "success"
+                   });
+            </text>
+        }
+    </script>
+    @RenderSection("Scripts",required:false)
+</body>
+</html>

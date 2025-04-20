@@ -1,0 +1,371 @@
+﻿
+@{
+    ViewData["Title"] = "Birthday";
+    Layout = "_LayoutWebsite";
+}
+
+
+@section Styles{
+    <style>
+    @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+
+            body {
+                background: linear-gradient(135deg, #6c5ce7, #a367fc);
+                min-height: 100vh;
+                font-family: 'Poppins', sans-serif;
+                padding: 20px;
+            }
+
+            .birthday-card {
+                max-width: 900px;
+                margin: 2rem auto;
+                background: #fff;
+                border-radius: 30px;
+                overflow: hidden;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            }
+
+            .preview-section {
+                background: linear-gradient(45deg, #6c5ce7, #a367fc);
+                padding: 3rem 2rem;
+                position: relative;
+                color: white;
+                overflow: hidden;
+            }
+
+            .balloon {
+                position: absolute;
+                animation: float 6s ease-in-out infinite;
+            }
+
+    @@keyframes float {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-20px); }
+            }
+
+            .celebration-text {
+                font-size: 3.5rem;
+                font-weight: 800;
+                background: linear-gradient(45deg, #fff, #e0e0e0);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+                margin: 1rem 0;
+                position: relative;
+                z-index: 2;
+            }
+
+            .birthday-details {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                border-radius: 20px;
+                padding: 2rem;
+                margin: 2rem 0;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                position: relative;
+                z-index: 2;
+            }
+
+            .form-container {
+                background: white;
+                border-radius: 20px;
+                padding: 2rem;
+                margin-top: 2rem;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+
+            .custom-input {
+                background: #f8f9fa;
+                border: 2px solid transparent;
+                border-radius: 15px;
+                padding: 1rem;
+                transition: all 0.3s ease;
+            }
+
+            .custom-input:focus {
+                background: white;
+                border-color: #6c5ce7;
+                box-shadow: 0 5px 15px rgba(108, 92, 231, 0.2);
+                outline: none;
+            }
+
+            .btn-update {
+                background: linear-gradient(45deg, #6c5ce7, #a367fc);
+                border: none;
+                padding: 1rem 2rem;
+                border-radius: 15px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                color: white;
+                transition: all 0.3s ease;
+            }
+
+            .btn-update:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 20px rgba(108, 92, 231, 0.4);
+            }
+
+            .message-text {
+                font-size: 1.2rem;
+                line-height: 1.6;
+                margin: 1.5rem 0;
+                color: rgba(255, 255, 255, 0.9);
+            }
+
+            .emoji {
+                font-size: 2rem;
+                margin: 0 5px;
+                animation: bounce 2s infinite;
+            }
+
+    @@keyframes bounce {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-10px); }
+            }
+
+            .theme-select {
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 15px;
+                color: white;
+                padding: 0.5rem 1rem;
+            }
+
+            .theme-select option {
+                background: #6c5ce7;
+                color: white;
+            }
+
+    @@media (max-width: 768px) {
+                .birthday-card {
+                    margin: 1rem;
+                }
+
+                .celebration-text {
+                    font-size: 2.5rem;
+                }
+
+                .preview-section {
+                    padding: 2rem 1rem;
+                }
+            }
+        </style>
+}
+
+
+<div class="container">
+    <div class="birthday-card">
+        <!-- Preview Section -->
+        <div class="preview-section" id="birthday_card">
+            <div class="text-center">
+                <h1 class="celebration-text" id="previewTitle">Happy Birthday!</h1>
+                <h2 class="mb-4" id="previewName">Dear [Name]</h2>
+
+                <div class="birthday-details">
+                    <h3 id="previewDate">Join us on [Date]</h3>
+                    <h3 id="previewTime">at [Time]</h3>
+                    <h3 id="previewLocation">at [Location]</h3>
+
+                    <div class="message-text" id="previewMessage">
+                        [Your special message will appear here]
+                    </div>
+
+                    <p class="mb-0" id="previewFrom">With love,<br>[Your Name]</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <div class="form-container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h3 class="text-center mb-4">customize Your Birthday Card</h3>
+                </div>
+
+                <div class="col-md-4">
+                    <button class="btn bg-dark-subtle" id="sendmail">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-arrow-up-fill" viewBox="0 0 16 16">
+                            <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zm.192 8.159 6.57-4.027L8 9.586l1.239-.757.367.225A4.49 4.49 0 0 0 8 12.5c0 .526.09 1.03.256 1.5H2a2 2 0 0 1-1.808-1.144M16 4.697v4.974A4.5 4.5 0 0 0 12.5 8a4.5 4.5 0 0 0-1.965.45l-.338-.207z" />
+                            <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.354-5.354 1.25 1.25a.5.5 0 0 1-.708.708L13 12.207V14a.5.5 0 0 1-1 0v-1.717l-.28.305a.5.5 0 0 1-.737-.676l1.149-1.25a.5.5 0 0 1 .722-.016" />
+                        </svg>
+                        Send To Your Loved Once
+                    </button>
+                </div>
+            </div>
+
+            <form id="birthdayForm">
+                <input value="@ViewData["card_id"]" id="card_id" hidden />
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Recipient's Name</label>
+                        <input type="text" class="custom-input form-control" id="recipientName"
+                               placeholder="Enter recipient's name" onkeyup="updatePreview()">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Your Name</label>
+                        <input type="text" class="custom-input form-control" id="senderName"
+                               placeholder="Enter your name" onkeyup="updatePreview()">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Event Date</label>
+                        <input type="date" class="custom-input form-control" id="eventDate"
+                               onchange="updatePreview()">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Event Time</label>
+                        <input type="time" class="custom-input form-control" id="eventTime"
+                               onchange="updatePreview()">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Location</label>
+                    <input type="text" class="custom-input form-control" id="location"
+                           placeholder="Enter celebration location" onkeyup="updatePreview()">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10 mb-3">
+
+                        <div class="mb-3">
+                            <label for="emailSelect" class="form-label">Select Email</label>
+                            <select class="custom-input form-control" id="emailSelect" multiple="multiple">
+                                <option value="" disabled selected>Select an email</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 mt-5">
+
+                        <div>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#emailModal">
+                                Add Email
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Your Message</label>
+                    <textarea class="custom-input form-control" id="message" rows="4"
+                              placeholder="Write your birthday message here..." onkeyup="updatePreview()"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Card Theme</label>
+                    <select class="custom-input form-control" id="cardTheme" onchange="updateTheme()">
+                        <option value="purple">Purple Dreams</option>
+                        <option value="blue">Ocean Blue</option>
+                        <option value="pink">Pink Paradise</option>
+                        <option value="green">Forest Green</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn btn-update w-100" onclick="updatePreview()">
+                    <i class="fas fa-magic me-2"></i>Update Card
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="emailModalLabel">Add Email</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="emailForm">
+                        <div class="mb-3">
+                            <label for="emailInput" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="emailInput" placeholder="Enter email" required />
+                            <div id="emailError" class="text-danger" style="display: none;">Invalid email format</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="addEmailButton" class="btn btn-primary">Add Email</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+@section Scripts {
+    <script>
+        function formatDate(dateString) {
+            if (!dateString) return 'Join us on [Date]';
+            const date = new Date(dateString);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            return `Join us on ${date.toLocaleDateString('en-US', options)}`;
+        }
+
+        function formatTime(timeString) {
+            if (!timeString) return 'at [Time]';
+            const [hours, minutes] = timeString.split(':');
+            const time = new Date();
+            time.setHours(hours);
+            time.setMinutes(minutes);
+            return `at ${time.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit'
+            })}`;
+        }
+
+        function updatePreview() {
+            const recipientName = document.getElementById('recipientName').value || '[Name]';
+            const senderName = document.getElementById('senderName').value || '[Your Name]';
+            const eventDate = formatDate(document.getElementById('eventDate').value);
+            const eventTime = formatTime(document.getElementById('eventTime').value);
+            const location = document.getElementById('location').value || '[Location]';
+            const message = document.getElementById('message').value || '[Your special message will appear here]';
+
+            document.getElementById('previewName').textContent = `Dear ${recipientName}`;
+            document.getElementById('previewDate').textContent = eventDate;
+            document.getElementById('previewTime').textContent = eventTime;
+            document.getElementById('previewLocation').textContent = `at ${location}`;
+            document.getElementById('previewMessage').textContent = message;
+            document.getElementById('previewFrom').innerHTML = `With love,<br>${senderName}`;
+        }
+
+        function updateTheme() {
+            const theme = document.getElementById('cardTheme').value;
+            const previewSection = document.querySelector('.preview-section');
+            const btnUpdate = document.querySelector('.btn-update');
+
+            const themes = {
+                purple: {
+                    background: 'linear-gradient(45deg, #6c5ce7, #a367fc)',
+                    button: 'linear-gradient(45deg, #6c5ce7, #a367fc)'
+                },
+                blue: {
+                    background: 'linear-gradient(45deg, #0984e3, #74b9ff)',
+                    button: 'linear-gradient(45deg, #0984e3, #74b9ff)'
+                },
+                pink: {
+                    background: 'linear-gradient(45deg, #e84393, #fd79a8)',
+                    button: 'linear-gradient(45deg, #e84393, #fd79a8)'
+                },
+                green: {
+                    background: 'linear-gradient(45deg, #00b894, #55efc4)',
+                    button: 'linear-gradient(45deg, #00b894, #55efc4)'
+                }
+            };
+
+            previewSection.style.background = themes[theme].background;
+            btnUpdate.style.background = themes[theme].button;
+        }
+
+        // Initialize the card
+        updatePreview();
+    </script>
+    <script src="~/js/birthday_card.js"></script>
+}

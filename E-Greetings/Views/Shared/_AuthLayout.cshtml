@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Greetings - @ViewData["Title"]</title>
+
+
+
+    <link rel="shortcut icon" href="~/assets/static/images/logo/tab.png" type="image/x-icon">
+    <link rel="shortcut icon" href="~/assets/static/images/logo/tab.png" type="image/png">
+    <link rel="stylesheet" href="~/assets/compiled/css/app.css">
+    <link rel="stylesheet" href="~/assets/compiled/css/app-dark.css">
+    <link rel="stylesheet" href="~/assets/compiled/css/auth.css">
+    <link rel="stylesheet" href="~/assets/static/css/SweetAlert2.css">
+    @RenderSection("Styles",required:false)
+</head>
+
+<body>
+
+    <script src="~/assets/static/js/initTheme.js"></script>
+    <div id="auth">
+
+      @RenderBody()
+
+    </div>
+
+     <script src="~/assets/static/js/SweetAlert2.js"></script>
+
+
+    <script>
+        @if (TempData["Registered"] != null)
+        {
+            <text>
+                Swal.fire({
+                    title: "Registration Success",
+                    text: "@TempData["Registration"]",
+                    icon: "success"
+                });
+            </text>
+        } 
+        
+        @if (TempData["Error"] != null)
+        {
+            <text>
+                    Swal.fire({
+                        title: "Error",
+                        text: "@TempData["Error"]",
+                        icon: "error"
+                    });
+            </text>
+        }
+    </script>
+    
+
+    @RenderSection("Scripts",required:false)
+  
+
+</body>
+
+</html>

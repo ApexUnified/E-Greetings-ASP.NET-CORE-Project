@@ -1,0 +1,75 @@
+﻿@model List<Permission>
+@{
+    ViewData["Title"] = "Role Permissions";
+}
+<div id="main-content">
+
+
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Permission Settings</h3>
+                    <p class="text-subtitle text-muted">
+                        In This Section You Will See All Permissions That Has Been Created For The Roles;
+                    </p>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="DashboardIndex">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Setting / RolePermissionns</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end mb-3">
+                <a asp-controller="Setting" asp-action="RolePermissionCreate" class="btn btn-primary"> Create Permission </a>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="card">
+                <div class="card-body">
+                    <form class="form" asp-controller="Setting" asp-action="RolePermissionsIndex" method="post">
+                        <div class="row">
+                            @{
+                                var data = ViewData["assigned_permissions"] as List<int?>;
+                                foreach(var item in Model){
+                                    <div class="col-lg-3 col-md-3 my-2">
+                                        <div class="form-check">
+                                            <div class="checkbox">
+                                                <input type="hidden" name="role_id" value="@ViewData["role_id"]" />
+                                                <input type="checkbox" id="Name" name="Name[]" value="@item.Id"
+                                                       class="form-check-input"
+
+                                                    @if (data != null)
+                                                    {
+                                                    var nonNullData = data.Where(x => x.HasValue).Select(x => x.Value).ToList();
+                                                    // Use nonNullData in your check
+                                                    @if (nonNullData.Contains(item.Id))
+                                                    {
+                                                        @:checked
+                                                    }
+                                                    } />
+
+                                                
+                                                <label>@item.Name</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                        
+                            }
+                        </div>
+                        @* <span class="text-danger" asp-validation-for="@Model"></span> *@
+                        <button type="submit" class="btn btn-primary my-3">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+
+        </section>
+
+
+    </div>
+</div>
