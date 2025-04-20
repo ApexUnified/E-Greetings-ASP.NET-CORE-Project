@@ -1,7 +1,7 @@
 # Ignore build and debug folders
 bin/
 obj/
-wwwroot/assets
+wwwroot/
 .vscode/
 *.user
 *.suo
